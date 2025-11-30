@@ -212,6 +212,7 @@ class SudokuGenerator:
                 self.board[row][col] = 0
                 removed += 1
 
+
 '''
 DO NOT CHANGE
 Provided for students
