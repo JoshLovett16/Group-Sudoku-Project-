@@ -108,7 +108,7 @@ if __name__ == '__main__':
                         val = baord.cells[row][col].sketched_value
                         if val != 0:
                             board.place_number(val)
-                        elif event.key = pygame.K_BACKSPACE:
+                        elif event.key == pygame.K_BACKSPACE:
                             board.clear()
 
         screen.fill((255, 255, 255))
