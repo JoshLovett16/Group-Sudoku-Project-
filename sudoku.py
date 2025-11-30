@@ -98,6 +98,18 @@ if __name__ == '__main__':
                         board = None
                     elif exit_btn and exit_btn.collidepoint(event.pos):
                         sys.exit()
+                        
+            if event.type == pygame.KEYDOWN and board:
+                row, col = board.selected_row, board.selected_col
+                if row is not None and col is not None:
+                    if event.unicode in "123456789":
+                        board.sketch(int(event.unicode))
+                    elif event.key == pygame.K_RETURN:
+                        val = baord.cells[row][col].sketched_value
+                        if val != 0:
+                            board.place_number(val)
+                        elif event.key = pygame.K_BACKSPACE:
+                            board.clear()
 
         screen.fill((255, 255, 255))
 
