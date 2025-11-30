@@ -21,6 +21,8 @@ class Board:
 
         self.cells = []
         self.board_values = generate_sudoku(9, num_removed)
+        self.solution = [row.copy() for row in self.board_values]
+
 
         for row in range(9):
             row_data = []
@@ -85,13 +87,18 @@ class Board:
                 self.cells[row][col].set_sketched_value(value)
 
     def place_number(self, value):
-        row = self.selected_row
-        col = self.selected_col
+        row, col = self.selected_row, self.selected_col
 
-        if row is not None and col is not None:
-            if self.board_values[row][col] == 0:
-                self.cells[row][col].set_cell_value(value)
-                self.cells[row][col].set_sketched_value(0)
+        if self.is_valid(value, row, col):
+            self.cells[row][col].value = value
+            self.cells[row][col].sketched_value = 0
+            return True
+        else:
+            return False
+
+    def is_valid(self, value, row, col):
+        return value == self.solution[row][col]
+
 
     def reset_to_original(self):
         for row in range(9):

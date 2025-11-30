@@ -59,14 +59,21 @@ def draw_game_buttons(screen):
 
     return reset_btn, restart_btn, exit_btn
 
+def show_end_screen(screen, message):
+    screen.fill((255, 255, 255))
+    font = pygame.font.Font(None, 60)
+    text_surf = font.render(message, True, (255, 0, 0))
+    text_rect = text_surf.get_rect(center=(270, 300))
+    screen.blit(text_surf, text_rect)
+    pygame.display.update()
+    pygame.time.wait(3000) 
+
 if __name__ == '__main__':
     pygame.init()
     screen = pygame.display.set_mode((540, 600))
     pygame.display.set_caption('Sudoku')
 
     easy_button, medium_button, hard_button = draw_game_start(screen)
-
-    draw_game_start(screen)
 
     board = None
     reset_btn = None
@@ -100,10 +107,6 @@ if __name__ == '__main__':
                         sys.exit()
                         
             if event.type == pygame.KEYDOWN and board:
-                if not hasattr(board, 'selected_row') or board.selected_row is None:
-                    board.selected_row = 0
-                if not hasattr(board, 'selected_col') or board.selected_col is None:
-                    board.selected_col = 0
                 row, col = board.selected_row, board.selected_col
                 
                 if event.unicode.isdigit() and event.unicode != "0":
@@ -111,7 +114,13 @@ if __name__ == '__main__':
                 elif event.key == pygame.K_RETURN:
                     val = board.cells[row][col].sketched_value
                     if val != 0:
-                        board.place_number(val)
+                        correct = board.place_number(val)
+                        if correct is False:
+                            show_end_screen(screen, "You Lost!")
+                            board = None
+                        elif board.is_full():
+                            show_end_screen(screen, "You Won!")
+                            board = None
                 elif event.key == pygame.K_BACKSPACE:
                         board.clear()
                 elif event.key == pygame.K_UP:
