@@ -69,9 +69,6 @@ if __name__ == '__main__':
     draw_game_start(screen)
 
     board = None
-    easy_button = None
-    medium_button = None
-    hard_button = None
     reset_btn = None
     restart_btn = None
     exit_btn = None
