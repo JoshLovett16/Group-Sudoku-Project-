@@ -37,15 +37,77 @@ def draw_game_start(screen):
     hard_text_rect = hard_text_surf.get_rect(center=hard_button.center)
     screen.blit(hard_text_surf, hard_text_rect)
 
+    return easy_button, medium_button, hard_button
+
+def draw_game_buttons(screen):
+    button_font = pygame.font.Font(None, 30)
+
+    reset_text = button_font.render('Reset', True, (255, 255, 255))
+    reset_btn = pygame.Rect(50, 550, 100, 40)
+    pygame.draw.rect(screen, (255, 165, 0), reset_btn)
+    screen.blit(reset_text, (reset_btn.x + 20, reset_btn.y + 10))
+
+    restart_text = button_font.render("Restart", True, (255, 255, 255))
+    restart_btn = pygame.Rect(220, 550, 100, 40)
+    pygame.draw.rect(screen, (255, 165, 0), restart_btn)
+    screen.blit(restart_text, (restart_btn.x + 10, restart_btn.y + 10))
+
+    exit_text = button_font.render("Exit", True, (255, 255, 255))
+    exit_btn = pygame.Rect(390, 550, 100, 40)
+    pygame.draw.rect(screen, (255, 165, 0), exit_btn)
+    screen.blit(exit_text, (exit_btn.x + 30, exit_btn.y + 10))
+
+    return reset_btn, restart_btn, exit_btn
+
 if __name__ == '__main__':
     pygame.init()
     screen = pygame.display.set_mode((540, 600))
     pygame.display.set_caption('Sudoku')
 
+    easy_button, medium_button, hard_button = draw_game_start(screen)
+
     draw_game_start(screen)
+
+    board = None
+    easy_button = None
+    medium_button = None
+    hard_button = None
+    reset_btn = None
+    restart_btn = None
+    exit_btn = None
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if board is None:
+                    if easy_button.collidepoint(event.pos):
+                        board = Board(9,9, screen, 'Easy')
+                    elif medium_button.collidepoint(event.pos):
+                        board = Board(9,9, screen, 'Medium')
+                    elif hard_button.collidepoint(event.pos):
+                        board = Board(9,9,screen, 'Hard')
+
+                else:
+                    clicked_cell = board.click(event.pos[0], event.pos[1])
+                    if clicked_cell:
+                        board.select(clicked_cell[0], clicked_cell[1])
+
+                    if reset_btn and reset_btn.collidepoint(event.pos):
+                        board.reset_to_original()
+                    elif restart_btn and restart_btn.collidepoint(event.pos):
+                        board = None
+                    elif exit_btn and exit_btn.collidepoint(event.pos):
+                        sys.exit()
+
+        screen.fill((255, 255, 255))
+
+        if board is None:
+            easy_button, medium_button, hard_button = draw_game_start(screen)
+        else:
+            board.draw()
+            reset_btn, restart_btn, exit_btn = draw_game_buttons(screen)
+
         pygame.display.update()
