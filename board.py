@@ -89,15 +89,10 @@ class Board:
         row, col = self.selected_row, self.selected_col
         if self.cells[row][col].original:
             return False
+        
         self.cells[row][col].value = value
         self.cells[row][col].sketched_value = 0
 
-        if self.is_full():
-            if self.check_board():
-                self.show_game_won()
-            else:
-                self.show_game_over()
-                
         return True
         
     def reset_to_original(self):

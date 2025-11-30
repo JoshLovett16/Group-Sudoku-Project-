@@ -123,7 +123,9 @@ if __name__ == '__main__':
                             show_end_screen(screen, "Game Over :(")
                             board = None
                         elif board.is_full():
-                            show_end_screen(screen, "Game Won!")
+                            if board.check_board():
+                                show_end_screen(screen, "Game Won!")
+                            else: show_end_screen(screen, "Game Over :(")
                             board = None
                 elif event.key == pygame.K_BACKSPACE:
                         board.clear()
