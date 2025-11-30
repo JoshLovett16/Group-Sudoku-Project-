@@ -27,9 +27,9 @@ class Cell:
             self.screen.blit(value_surf, value_rect)
 
         if self.value == 0 and self.sketched_value != 0:
-            value_font = pygame.font.Font(None, 20)
+            value_font = pygame.font.Font(None, 40)
             value_surf = value_font.render(str(self.sketched_value), True, (128, 128, 128))
-            value_rect = value_surf.get_rect(topleft = (x + 5, y + 5))
+            value_rect = value_surf.get_rect(topleft = (x + 23, y + 18))
             self.screen.blit(value_surf, value_rect)
 
         if self.selected:
