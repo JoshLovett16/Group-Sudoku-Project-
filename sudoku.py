@@ -62,7 +62,11 @@ def draw_game_buttons(screen):
 def show_end_screen(screen, message):
     screen.fill((255, 255, 255))
     font = pygame.font.Font(None, 60)
-    text_surf = font.render(message, True, (255, 0, 0))
+    if message == "You Won!":
+        color = (0, 255, 0)
+    else:
+        color = (255, 0, 0)
+    text_surf = font.render(message, True, color)
     text_rect = text_surf.get_rect(center=(270, 300))
     screen.blit(text_surf, text_rect)
     pygame.display.update()
