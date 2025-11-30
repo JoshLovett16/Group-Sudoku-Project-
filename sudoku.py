@@ -106,11 +106,11 @@ if __name__ == '__main__':
                     board.selected_col = 0
                 row, col = board.selected_row, board.selected_col
                 
-                if event.unicode in "123456789":
+                if event.unicode.isdigit() and event.unicode != "0":
                     board.sketch(int(event.unicode))
                 elif event.key == pygame.K_RETURN:
                     val = board.cells[row][col].sketched_value
-                    if val != 0:i alreayf
+                    if val != 0:
                         board.place_number(val)
                 elif event.key == pygame.K_BACKSPACE:
                         board.clear()

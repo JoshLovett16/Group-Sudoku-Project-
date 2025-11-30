@@ -30,6 +30,10 @@ class Board:
                 row_data.append(new_cell)
             self.cells.append(row_data)
 
+        self.selected_row = 0
+        self.selected_col = 0
+        self.select(0, 0)
+
     def draw(self):
         for row in range(9):
             for col in range(9):
