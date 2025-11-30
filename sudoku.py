@@ -100,16 +100,33 @@ if __name__ == '__main__':
                         sys.exit()
                         
             if event.type == pygame.KEYDOWN and board:
+                if not hasattr(board, 'selected_row') or board.selected_row is None:
+                    board.selected_row = 0
+                if not hasattr(board, 'selected_col') or board.selected_col is None:
+                    board.selected_col = 0
                 row, col = board.selected_row, board.selected_col
-                if row is not None and col is not None:
-                    if event.unicode in "123456789":
-                        board.sketch(int(event.unicode))
-                    elif event.key == pygame.K_RETURN:
-                        val = baord.cells[row][col].sketched_value
-                        if val != 0:
-                            board.place_number(val)
-                        elif event.key == pygame.K_BACKSPACE:
-                            board.clear()
+                
+                if event.unicode in "123456789":
+                    board.sketch(int(event.unicode))
+                elif event.key == pygame.K_RETURN:
+                    val = board.cells[row][col].sketched_value
+                    if val != 0:i alreayf
+                        board.place_number(val)
+                elif event.key == pygame.K_BACKSPACE:
+                        board.clear()
+                elif event.key == pygame.K_UP:
+                    board.selected_row = max(0, board.selected_row - 1)
+                    board.select(board.selected_row, board.selected_col)
+                elif event.key == pygame.K_DOWN:
+                    board.selected_row = min(8, board.selected_row + 1)
+                    board.select(board.selected_row, board.selected_col)
+                elif event.key == pygame.K_LEFT:
+                    board.selected_col = max(0, board.selected_col - 1)
+                    board.select(board.selected_row, board.selected_col)
+                elif event.key == pygame.K_RIGHT:
+                    board.selected_col = min(8, board.selected_col + 1)
+                    board.select(board.selected_row, board.selected_col)
+                
 
         screen.fill((255, 255, 255))
 
