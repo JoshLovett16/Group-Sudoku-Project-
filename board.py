@@ -87,21 +87,19 @@ class Board:
 
     def place_number(self, value):
         row, col = self.selected_row, self.selected_col
-
         if self.cells[row][col].original:
             return False
-        if value == self.solution[row][col]:
-            self.cells[row][col].value = value
-            self.cells[row][col].sketched_value = 0
-            return True
-        else:
-            self.cells[row][col].sketched_value = 0
-            return False
+        self.cells[row][col].value = value
+        self.cells[row][col].sketched_value = 0
 
-    def is_valid(self, value, row, col):
-        return value == self.solution[row][col]
-
-
+        if self.is_full():
+            if self.check_board():
+                self.show_game_won()
+            else:
+                self.show_game_over()
+                
+        return True
+        
     def reset_to_original(self):
         for row in range(9):
             for col in range(9):
@@ -130,15 +128,25 @@ class Board:
 
     def check_board(self):
         self.update_board()
-
         for row in range(9):
-            row_numbers = set(self.board_values[row])
-            if len(row_numbers) != 9 or 0 in row_numbers:
-                return False
-
-        for col in range(9):
-            col_numbers = [self.board_values[row][col] for row in range(9)]
-            if len(set(col_numbers)) != 9 or 0 in set(col_numbers):
-                return False
+            for col in range(9):
+                if self.board_values[row][col] != self.solution[row][col]:
+                    return False
 
         return True
+    
+    def show_game_won(self):
+        self.screen.fill((0, 0, 0))
+        font = pygame.font.SysFont(None, 80)
+        text = font.render("Game Won :)", True, (255, 255, 255))
+        rect = text.get_rect(center=(self.width // 2, self.height // 2))
+        self.screen.blit(text, rect)
+        pygame.display.update()
+
+    def show_game_over(self):
+        self.screen.fill((0, 0, 0))
+        font = pygame.font.SysFont(None, 80)
+        text = font.render("Game Over :(", True, (255, 255, 255))
+        rect = text.get_rect(center=(self.width // 2, self.height // 2))
+        self.screen.blit(text, rect)
+        pygame.display.update()

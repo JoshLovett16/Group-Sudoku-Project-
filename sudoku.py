@@ -62,7 +62,7 @@ def draw_game_buttons(screen):
 def show_end_screen(screen, message):
     screen.fill((255, 255, 255))
     font = pygame.font.Font(None, 60)
-    if message == "You Won!":
+    if message == "Game Won!":
         color = (0, 255, 0)
     else:
         color = (255, 0, 0)
@@ -120,10 +120,10 @@ if __name__ == '__main__':
                     if val != 0:
                         correct = board.place_number(val)
                         if correct is False:
-                            show_end_screen(screen, "You Lost!")
+                            show_end_screen(screen, "Game Over :(")
                             board = None
                         elif board.is_full():
-                            show_end_screen(screen, "You Won!")
+                            show_end_screen(screen, "Game Won!")
                             board = None
                 elif event.key == pygame.K_BACKSPACE:
                         board.clear()
