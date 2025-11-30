@@ -7,15 +7,6 @@ https://www.geeksforgeeks.org/program-sudoku-generator/
 """
 
 class SudokuGenerator:
-    def fill_box(self, row_start, col_start):
-        nums = list(range(1, 10))
-        random.shuffle(nums)
-        for i in range(3):
-            for j in range(3):
-                self.board[row_start + i][col_start + j] = nums.pop()
-    def fill_diagonal(self):
-        for i in range(0, self.row_length, 3):
-            self.fill_box(i, i)
     '''
 	create a sudoku board - initialize class variables and set up the 2D board
 	This should initialize:
@@ -212,7 +203,13 @@ class SudokuGenerator:
 	Return: None
     '''
     def remove_cells(self):
-        pass
+        removed = 0
+        while removed < self.removed_cells:
+            row = random.randint(0, self.row_length - 1)
+            col = random.randint(0, self.row_length - 1)
+            if self.board[row][col] != 0:
+                self.board[row][col] = 0
+                removed += 1
 
 '''
 DO NOT CHANGE
